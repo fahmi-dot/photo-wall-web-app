@@ -28,7 +28,12 @@ function App() {
     try {
       setLoading(true);
       const response = await axios.get(`${API_URL}/images`);
-      setImages([...response.data, ...response.data, ...response.data, ...response.data]);
+      setImages([
+        ...response.data,
+        ...response.data,
+        ...response.data,
+        ...response.data,
+      ]);
     } catch (error) {
       console.error("Error fetching images:", error);
     } finally {
@@ -61,8 +66,18 @@ function App() {
           <div className="relative px-6 py-3 bg-gradient-to-r from-blue-400 to-blue-600 text-white font-semibold rounded-lg shadow-lg hover:shadow-2xl hover:scale-105 active:scale-95 transition-all duration-300">
             {showForm ? (
               <span className="flex items-center gap-2">
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                <svg
+                  className="w-5 h-5"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M6 18L18 6M6 6l12 12"
+                  />
                 </svg>
                 Tutup
               </span>
@@ -84,8 +99,18 @@ function App() {
         <div className="relative">
           <div className="absolute inset-0 bg-gradient-to-r from-pink-400 to-pink-600 rounded-lg blur opacity-75 group-hover:opacity-100 transition duration-300"></div>
           <div className="relative px-6 py-3 bg-gradient-to-r from-pink-400 to-pink-600 text-white font-semibold rounded-lg shadow-lg hover:shadow-2xl hover:scale-105 active:scale-95 transition-all duration-300 flex items-center gap-2">
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+            <svg
+              className="w-5 h-5"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+              />
             </svg>
             Buka pi
           </div>
@@ -107,19 +132,58 @@ function App() {
 
         {/* Upload Form dengan Slide Animation */}
         {showForm && (
-          <div className="mb-10 mt-16 animate-slide-down">
-            <UploadForm
-              onUploadSuccess={() => {
-                fetchImages();
-                setShowForm(false);
-              }}
-            />
+          <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/50 backdrop-blur-md animate-fade-in">
+            {/* Floating Particles untuk Upload Form */}
+            <div className="absolute inset-0 pointer-events-none overflow-hidden">
+              {[...Array(30)].map((_, i) => (
+                <div
+                  key={i}
+                  className="absolute w-1 h-1 bg-blue-300 rounded-full animate-float"
+                  style={{
+                    top: `${Math.random() * 100}%`,
+                    left: `${Math.random() * 100}%`,
+                    animationDelay: `${Math.random() * 2}s`,
+                    animationDuration: `${3 + Math.random() * 2}s`,
+                  }}
+                ></div>
+              ))}
+            </div>
+
+            {/* Close Button */}
+            <button
+              onClick={() => setShowForm(false)}
+              className="absolute top-4 right-4 z-[102] p-2 bg-white/90 hover:bg-white rounded-full shadow-lg hover:shadow-xl transition-all duration-300 group"
+              aria-label="Tutup form"
+            >
+              <svg
+                className="w-6 h-6 text-gray-700 group-hover:rotate-90 transition-transform duration-300"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M6 18L18 6M6 6l12 12"
+                />
+              </svg>
+            </button>
+
+            <div className="relative z-[101] max-h-[90vh] overflow-y-auto">
+              <UploadForm
+                onUploadSuccess={() => {
+                  fetchImages();
+                  setShowForm(false);
+                }}
+              />
+            </div>
           </div>
         )}
 
         {/* Letter Modal dengan Backdrop */}
         {showLetter && (
-          <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/40 backdrop-blur-md animate-fade-in">
+          <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/50 backdrop-blur-md animate-fade-in">
             {/* Floating Particles */}
             <div className="absolute inset-0 pointer-events-none overflow-hidden">
               {[...Array(50)].map((_, i) => (
@@ -142,8 +206,18 @@ function App() {
               className="absolute top-4 right-4 z-[102] p-2 bg-white/90 hover:bg-white rounded-full shadow-lg hover:shadow-xl transition-all duration-300 group"
               aria-label="Tutup surat"
             >
-              <svg className="w-6 h-6 text-gray-700 group-hover:rotate-90 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              <svg
+                className="w-6 h-6 text-gray-700 group-hover:rotate-90 transition-transform duration-300"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M6 18L18 6M6 6l12 12"
+                />
               </svg>
             </button>
 
@@ -174,7 +248,7 @@ function App() {
                   image.imageUrl ? (
                     <div
                       key={image.id}
-                      className="polaroid z-40 relative w-40 bg-white shadow-lg p-2 rounded-sm transition-all duration-300 hover:z-20 cursor-pointer group"
+                      className="polaroid relative w-40 bg-white shadow-lg p-2 rounded-sm transition-all duration-300 hover:z-20 cursor-pointer group"
                       style={{
                         transform: `rotate(${(Math.random() * 10 - 5).toFixed(2)}deg)`,
                         animationDelay: `${idx * 0.05}s`,
@@ -221,8 +295,12 @@ function App() {
             {images.length === 0 && !loading && (
               <div className="py-20 text-center">
                 <div className="text-6xl mb-4">📸</div>
-                <p className="text-gray-600 text-lg mb-2">Belum ada foto yang ditampilkan</p>
-                <p className="text-gray-500 text-sm">Klik tombol + untuk menambahkan foto pertama!</p>
+                <p className="text-gray-600 text-lg mb-2">
+                  Belum ada foto yang ditampilkan
+                </p>
+                <p className="text-gray-500 text-sm">
+                  Klik tombol + untuk menambahkan foto pertama!
+                </p>
               </div>
             )}
           </div>
