@@ -1,13 +1,14 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap");
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* Base Styling dengan Texture */
+/* --------------------------------------------------
+   Base Styling dengan Tekstur dan Efek
+-------------------------------------------------- */
 body {
-  background-color: #f5f2ed;
-  background-image: url('https://www.transparenttextures.com/patterns/paper-fibers.png');
+  background-image: url("assets/images/brick-wall-dark.png");
   background-repeat: repeat;
   position: relative;
 }
@@ -19,13 +20,12 @@ body::before {
   left: 0;
   width: 100%;
   height: 100%;
-  background-image: radial-gradient(rgba(0,0,0,0.02) 1px, transparent 1px);
+  background-image: radial-gradient(rgba(0, 0, 0, 0.02) 1px, transparent 1px);
   background-size: 40px 40px;
   pointer-events: none;
   z-index: 0;
 }
 
-/* Subtle vignette effect */
 body::after {
   content: "";
   position: fixed;
@@ -33,16 +33,22 @@ body::after {
   left: 0;
   width: 100%;
   height: 100%;
-  background: radial-gradient(ellipse at center, transparent 0%, rgba(0,0,0,0.05) 100%);
+  background: radial-gradient(
+    ellipse at center,
+    transparent 0%,
+    rgba(0, 0, 0, 0.05) 100%
+  );
   pointer-events: none;
   z-index: 0;
 }
 
-/* Photo Row dengan String Gantungan */
-.photo-row {
-  position: relative;
+.text-shadow {
+  text-shadow: 2px 4px 4px rgba(0, 0, 0, 1);
 }
 
+/* --------------------------------------------------
+   Gantungan / Garis Tali Foto
+-------------------------------------------------- */
 .photo-row::before {
   content: "";
   position: absolute;
@@ -57,23 +63,24 @@ body::after {
   z-index: 1;
   pointer-events: none;
   background-image: url("data:image/svg+xml;utf8,\
-  <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 40' preserveAspectRatio='none'>\
-    <path d='M0,10 C25,30 75,30 100,10' stroke='%23c9bca8' stroke-width='2' fill='none' stroke-linecap='round'/>\
-  </svg>");
-  filter: drop-shadow(0 1px 2px rgba(0,0,0,0.1));
+    <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 40' preserveAspectRatio='none'>\
+      <path d='M0,10 C25,30 75,30 100,10' stroke='%23444444' stroke-width='2' fill='none' stroke-linecap='round'/>\
+    </svg>");
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 1));
 }
 
-/* Enhanced Polaroid Cards */
+/* --------------------------------------------------
+   Kartu Polaroid
+-------------------------------------------------- */
 .polaroid {
-  box-shadow: 
-    0 8px 20px rgba(0,0,0,0.15), 
-    0 2px 6px rgba(0,0,0,0.08),
-    inset 0 1px 0 rgba(255,255,255,0.8);
-  background: linear-gradient(135deg, #ffffff 0%, #fafafa 100%);
   position: relative;
-  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   cursor: pointer;
-  border: 1px solid rgba(0,0,0,0.05);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  background: linear-gradient(135deg, #ffffff 0%, #fafafa 100%);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.8), 0 2px 6px rgba(0, 0, 0, 0.8),
+    inset 0 1px 0 rgba(255, 255, 255, 0.8);
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  rotate: var(--rotate-angle);
 }
 
 .polaroid::before {
@@ -82,9 +89,9 @@ body::after {
   inset: 0;
   background: linear-gradient(
     135deg,
-    rgba(255,255,255,0.4) 0%,
+    rgba(255, 255, 255, 0.4) 0%,
     transparent 50%,
-    rgba(0,0,0,0.02) 100%
+    rgba(0, 0, 0, 0.02) 100%
   );
   pointer-events: none;
   border-radius: inherit;
@@ -93,25 +100,11 @@ body::after {
 }
 
 .polaroid:hover {
-  transform: scale(1.08) rotate(var(--rotate-angle, 2deg)) translateY(-8px);
-  box-shadow: 
-    0 20px 40px rgba(0,0,0,0.25), 
-    0 8px 16px rgba(0,0,0,0.15),
-    inset 0 1px 0 rgba(255,255,255,0.9);
-  z-index: 20 !important;
+  rotate: rotate(var(--rotate-angle));
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 1), 0 2px 4px rgba(0, 0, 0, 1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
 }
 
-.polaroid:hover::before {
-  opacity: 1;
-}
-
-.polaroid:hover::after {
-  opacity: 0.8;
-  height: 8px;
-  filter: blur(6px);
-}
-
-/* Tape shadow effect */
 .polaroid::after {
   content: "";
   position: absolute;
@@ -120,33 +113,24 @@ body::after {
   transform: translateX(-50%);
   width: 40%;
   height: 6px;
-  background: rgba(0,0,0,0.06);
+  background: rgba(0, 0, 0, 0.06);
   filter: blur(4px);
   z-index: 5;
   pointer-events: none;
   transition: all 0.3s ease;
 }
 
-/* Enhanced Clip dengan Shine Effect */
-.clip {
-  position: absolute;
-  top: -10px;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 30;
-  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
-}
-
+/* --------------------------------------------------
+   Clip
+-------------------------------------------------- */
 .clip-inner {
   width: 20px;
   height: 16px;
   background: linear-gradient(180deg, #e3caa8 0%, #d9b48f 50%, #c9a77f 100%);
   border: 1px solid rgba(0, 0, 0, 0.15);
   border-radius: 3px 3px 1px 1px;
-  box-shadow: 
-    0 2px 6px rgba(0,0,0,0.2),
-    inset 0 1px 0 rgba(255,255,255,0.3),
-    inset 0 -1px 2px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3), inset 0 -1px 2px rgba(0, 0, 0, 0.1);
   position: relative;
 }
 
@@ -157,7 +141,7 @@ body::after {
   left: 2px;
   width: 4px;
   height: 10px;
-  background: linear-gradient(90deg, rgba(255,255,255,0.4), transparent);
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0.4), transparent);
   border-radius: 2px;
 }
 
@@ -170,31 +154,35 @@ body::after {
   height: 2px;
   background: rgba(0, 0, 0, 0.25);
   border-radius: 1px;
-  box-shadow: 0 1px 0 rgba(255,255,255,0.1);
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.1);
 }
 
-/* Floating Animation untuk Dekorasi */
+/* --------------------------------------------------
+   Float
+-------------------------------------------------- */
 .animate-float {
   animation: float 3s infinite ease-in-out;
 }
 
 @keyframes float {
-  0%, 100% { 
-    transform: translateY(0px) rotate(0deg); 
-    opacity: 0.6; 
+  0%,
+  100% {
+    transform: translateY(0px) rotate(0deg);
+    opacity: 0.6;
   }
-  50% { 
-    transform: translateY(-20px) rotate(180deg); 
-    opacity: 1; 
+  50% {
+    transform: translateY(-20px) rotate(180deg);
+    opacity: 1;
   }
 }
 
-/* Enhanced Paper dengan Realistic Lines */
+/* --------------------------------------------------
+   Paper-lined
+-------------------------------------------------- */
 .paper-lined {
+  position: relative;
   background-color: white;
-  background-image: 
-    /* Margin line */
-    linear-gradient(
+  background-image: linear-gradient(
       to right,
       white 0px,
       white 30px,
@@ -202,25 +190,20 @@ body::after {
       #ff8a8a 33px,
       transparent 33px
     ),
-    /* Horizontal lines */
     repeating-linear-gradient(
       to bottom,
       white 0px,
       white 23px,
-      rgba(173, 216, 230, 0.6) 24px,
+      rgba(173, 216, 230, 1) 24px,
       white 25px
     );
   background-size: 100% 25px;
   background-attachment: local;
-  box-shadow: 
-    0 10px 25px rgba(0,0,0,0.15), 
-    0 2px 6px rgba(0,0,0,0.08),
-    inset 0 1px 0 rgba(255,255,255,0.8);
   border-radius: 4px;
-  position: relative;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15), 0 2px 6px rgba(0, 0, 0, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.8);
 }
 
-/* Paper corner fold effect */
 .paper-lined::before {
   content: "";
   position: absolute;
@@ -231,57 +214,35 @@ body::after {
   background: linear-gradient(
     135deg,
     transparent 50%,
-    rgba(0,0,0,0.05) 50%,
-    rgba(0,0,0,0.08) 100%
+    rgba(0, 0, 0, 0.05) 50%,
+    rgba(0, 0, 0, 0.08) 100%
   );
   border-radius: 0 4px 0 0;
   pointer-events: none;
 }
 
-/* Shimmer effect untuk buttons */
-button {
-  position: relative;
-  overflow: hidden;
-}
-
-button::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(
-    90deg,
-    transparent,
-    rgba(255,255,255,0.3),
-    transparent
-  );
-  transition: left 0.5s ease;
-}
-
-button:hover::before {
-  left: 100%;
-}
-
-/* Smooth Image Loading */
+/* --------------------------------------------------
+   Smooth Image Loading
+-------------------------------------------------- */
 .polaroid img {
   transition: opacity 0.3s ease;
   background: linear-gradient(135deg, #f5f5f5 0%, #e0e0e0 100%);
 }
 
-.polaroid img:not([src]), 
+.polaroid img:not([src]),
 .polaroid img[src=""] {
   opacity: 0;
 }
 
-/* Custom Scrollbar */
+/* --------------------------------------------------
+   Custom Scrollbar
+-------------------------------------------------- */
 .paper-lined::-webkit-scrollbar {
   width: 8px;
 }
 
 .paper-lined::-webkit-scrollbar-track {
-  background: rgba(0,0,0,0.05);
+  background: rgba(0, 0, 0, 0.05);
   border-radius: 4px;
 }
 
@@ -295,47 +256,19 @@ button:hover::before {
   background: linear-gradient(180deg, #ff6b6b, #ff4757);
 }
 
-/* Polaroid Caption Animation */
-.polaroid p {
-  transition: all 0.3s ease;
-}
-
-.polaroid:hover p {
-  color: #2c3e50;
-}
-
-/* Envelope Glow Effect */
-.bg-\[\#f0a8a8\] {
-  position: relative;
-}
-
-.bg-\[\#f0a8a8\]::before {
-  content: "";
-  position: absolute;
-  inset: -2px;
-  background: linear-gradient(45deg, #f0a8a8, #ffc4c4, #f0a8a8);
-  border-radius: inherit;
-  opacity: 0;
-  z-index: -1;
-  transition: opacity 0.3s ease;
-  filter: blur(8px);
-}
-
-.bg-\[\#f0a8a8\]:hover::before {
-  opacity: 0.6;
-}
-
-/* Responsive Adjustments */
+/* --------------------------------------------------
+   Responsive
+-------------------------------------------------- */
 @media (max-width: 640px) {
-  .polaroid { 
-    width: 110px !important; 
+  .polaroid {
+    width: 110px !important;
   }
-  
-  .photo-row::before { 
-    height: 30px; 
-    top: -20px; 
+
+  .photo-row::before {
+    height: 30px;
+    top: -20px;
   }
-  
+
   .polaroid:hover {
     transform: scale(1.05) rotate(var(--rotate-angle, 1deg)) translateY(-4px);
   }
@@ -347,21 +280,9 @@ button:hover::before {
   }
 }
 
-/* Print Styles */
-@media print {
-  body::before,
-  body::after,
-  .photo-row::before {
-    display: none;
-  }
-  
-  .polaroid {
-    box-shadow: none;
-    page-break-inside: avoid;
-  }
-}
-
-/* Accessibility: Reduced Motion */
+/* --------------------------------------------------
+   Accessibility: Reduced Motion
+-------------------------------------------------- */
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
@@ -372,7 +293,9 @@ button:hover::before {
   }
 }
 
-/* Custom Animations */
+/* --------------------------------------------------
+   Custom Animations
+-------------------------------------------------- */
 @keyframes fade-in {
   from {
     opacity: 0;
@@ -396,7 +319,8 @@ button:hover::before {
 }
 
 @keyframes swing {
-  0%, 100% {
+  0%,
+  100% {
     transform: rotate(-3deg);
   }
   50% {
@@ -405,9 +329,23 @@ button:hover::before {
 }
 
 @keyframes shake {
-  0%, 100% { transform: translateX(0); }
-  10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
-  20%, 40%, 60%, 80% { transform: translateX(5px); }
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  10%,
+  30%,
+  50%,
+  70%,
+  90% {
+    transform: translateX(-5px);
+  }
+  20%,
+  40%,
+  60%,
+  80% {
+    transform: translateX(5px);
+  }
 }
 
 .animate-fade-in {
@@ -425,12 +363,4 @@ button:hover::before {
 
 .animate-shake {
   animation: shake 0.5s ease-in-out;
-}
-
-/* Line Clamp Utilities */
-.line-clamp-2 {
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
 }

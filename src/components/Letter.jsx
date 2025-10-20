@@ -15,13 +15,28 @@ const Letter = () => {
     try {
       setLoading(true);
       const response = await axios.get(`${API_URL}/speeches`);
-      // setSpeeches([...response.data]);
-      setSpeeches([]);
+      setSpeeches([...response.data]);
     } catch (error) {
       console.error("Error fetching speeches:", error);
     } finally {
       setLoading(false);
     }
+  };
+
+  const deleteSpeechById = async (id) => {
+    try {
+      await axios.delete(`${API_URL}/speeches/${id}`);
+    } catch (error) {
+      console.error(`Gagal menghapus speech dengan id ${id}:`, error);
+    }
+  };
+
+  const closeLetter = async () => {
+    const speechesToDelete = speeches.slice(0, current + 1);
+    await Promise.all(speechesToDelete.map(s => deleteSpeechById(s.id)));
+    setSpeeches(prev => prev.slice(current + 1));
+    setOpened(false);
+    setCurrent(0);
   };
 
   useEffect(() => {
@@ -40,13 +55,13 @@ const Letter = () => {
     }, 300);
   };
 
-  const prevSpeech = () => {
-    setFlipped(!flipped);
-    setTimeout(() => {
-      setCurrent((prev) => (prev - 1 + speeches.length) % speeches.length);
-      setFlipped(false);
-    }, 300);
-  };
+  // const prevSpeech = () => {
+  //   setFlipped(!flipped);
+  //   setTimeout(() => {
+  //     setCurrent((prev) => (prev - 1 + speeches.length) % speeches.length);
+  //     setFlipped(false);
+  //   }, 300);
+  // };
 
   if (loading) {
     return (
@@ -61,9 +76,9 @@ const Letter = () => {
     return (
       <div className="max-w-md mx-4 p-8 font-montserrat bg-white rounded-lg shadow-2xl text-center">
         <p className="text-gray-700 font-semibold text-xl mb-2">
-          Wkwk kan udah dibilang sekali liat
+          Selamat yaaa!
         </p>
-        <p className="text-gray-600">Selamat yakkk!</p>
+        <p>🎉🎉🎉</p>
       </div>
     );
   }
@@ -91,9 +106,12 @@ const Letter = () => {
               <div className="absolute top-0 left-0 w-full h-full pointer-events-none">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
+                  className="absolute top-0 left-0 w-full h-full"
+                  fill="url(#flapGradient)"
+                  stroke="#e29393"
+                  strokeWidth="2"
                   viewBox="0 0 200 100"
                   preserveAspectRatio="none"
-                  className="absolute top-0 left-0 w-full h-full"
                 >
                   <defs>
                     <linearGradient
@@ -109,9 +127,6 @@ const Letter = () => {
                   </defs>
                   <path
                     d="M0,0 L100,70 L200,0 Z"
-                    fill="url(#flapGradient)"
-                    stroke="#e29393"
-                    strokeWidth="2"
                   />
                 </svg>
               </div>
@@ -164,9 +179,12 @@ const Letter = () => {
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
+                  className="absolute top-0 left-0 w-full h-full"
+                  fill="url(#flapOpenGradient)"
+                  stroke="#e29393"
+                  strokeWidth="2"
                   viewBox="0 0 200 100"
                   preserveAspectRatio="none"
-                  className="absolute top-0 left-0 w-full h-full"
                 >
                   <defs>
                     <linearGradient
@@ -182,9 +200,6 @@ const Letter = () => {
                   </defs>
                   <path
                     d="M0,0 L100,70 L200,0 Z"
-                    fill="url(#flapOpenGradient)"
-                    stroke="#e29393"
-                    strokeWidth="2"
                   />
                 </svg>
               </motion.div>
@@ -257,7 +272,7 @@ const Letter = () => {
                 {/* Navigation */}
                 <div className="mt-8 pt-5 flex flex-col items-end">
                   {/* Previous Button */}
-                  {speeches.length > 1 && current > 0 && (
+                  {/* {speeches.length > 1 && current > 0 && (
                     <button
                       onClick={prevSpeech}
                       className="flex-1 flex items-center justify-center gap-2 group"
@@ -266,18 +281,18 @@ const Letter = () => {
                         className="w-4 h-4 group-hover:-translate-x-1 transition-transform"
                         fill="none"
                         stroke="currentColor"
+                        strokeWidth="2"
                         viewBox="0 0 24 24"
                       >
                         <path
                           strokeLinecap="round"
                           strokeLinejoin="round"
-                          strokeWidth={2}
                           d="M15 19l-7-7 7-7"
                         />
                       </svg>
                       Sebelumnya
                     </button>
-                  )}
+                  )} */}
 
                   {/* Progress Indicator */}
                   {/* {speeches.length > 1 && (
@@ -295,14 +310,9 @@ const Letter = () => {
                     </div>
                   )} */}
 
-                  {/* Next/Close Button */}
+                  {/* Next Button */}
                   {current === speeches.length - 1 ? (
-                    <button
-                      onClick={() => setOpened(false)}
-                      className="flex-1 flex items-center justify-center gap-2 group"
-                    >
-                      Tutup
-                    </button>
+                    <></>
                   ) : (
                     <button
                       onClick={nextSpeech}
@@ -313,17 +323,25 @@ const Letter = () => {
                         className="w-4 h-4 group-hover:translate-x-1 transition-transform"
                         fill="none"
                         stroke="currentColor"
+                        strokeWidth="2"
                         viewBox="0 0 24 24"
                       >
                         <path
                           strokeLinecap="round"
                           strokeLinejoin="round"
-                          strokeWidth={2}
                           d="M9 5l7 7-7 7"
                         />
                       </svg>
                     </button>
                   )}
+
+                  {/* Close Button */}
+                  <button
+                    onClick={closeLetter}
+                    className="flex-1 flex items-center justify-center gap-2 group"
+                  >
+                    Tutup
+                  </button>
                 </div>
 
                 {/* Speech Counter */}

@@ -11,6 +11,8 @@ function App() {
   const [loading, setLoading] = useState(true);
 
   const API_URL = import.meta.env.VITE_API_URL;
+  const TITLE_APP = import.meta.env.VITE_TITLE_APP;
+  const SUBTITLE_APP = import.meta.env.VITE_SUBTITLE_APP;
 
   function getPerRow() {
     if (window.innerWidth <= 640) return 2;
@@ -28,12 +30,7 @@ function App() {
     try {
       setLoading(true);
       const response = await axios.get(`${API_URL}/images`);
-      setImages([
-        ...response.data,
-        ...response.data,
-        ...response.data,
-        ...response.data,
-      ]);
+      setImages([...response.data]);
     } catch (error) {
       console.error("Error fetching images:", error);
     } finally {
@@ -51,8 +48,9 @@ function App() {
   }
 
   return (
-    <div className="relative min-h-screen bg-[#f5f2ed] font-montserrat py-10 overflow-x-hidden">
+    <div className="relative min-h-screen font-montserrat py-10 overflow-x-hidden">
       {/* Floating Action Buttons dengan Pulse Effect */}
+      {/* Add Photo Button */}
       <button
         onClick={() => {
           setShowForm(!showForm);
@@ -63,31 +61,26 @@ function App() {
       >
         <div className="relative">
           <div className="absolute inset-0 bg-gradient-to-r from-blue-400 to-blue-600 rounded-lg blur opacity-75 group-hover:opacity-100 transition duration-300 animate-pulse"></div>
-          <div className="relative px-6 py-3 bg-gradient-to-r from-blue-400 to-blue-600 text-white font-semibold rounded-lg shadow-lg hover:shadow-2xl hover:scale-105 active:scale-95 transition-all duration-300">
-            {showForm ? (
-              <span className="flex items-center gap-2">
-                <svg
-                  className="w-5 h-5"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M6 18L18 6M6 6l12 12"
-                  />
-                </svg>
-                Tutup
-              </span>
-            ) : (
-              <span className="text-2xl leading-none">+</span>
-            )}
+          <div className="relative p-3 bg-gradient-to-r from-blue-400 to-blue-600 text-white font-semibold rounded-lg shadow-lg hover:shadow-2xl hover:scale-105 active:scale-95 transition-all duration-300">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="w-5 h-5"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M12 4v16m8-8H4"
+              />
+            </svg>
           </div>
         </div>
       </button>
 
+      {/* Open Letter Button */}
       <button
         onClick={() => {
           setShowLetter(!showLetter);
@@ -98,42 +91,41 @@ function App() {
       >
         <div className="relative">
           <div className="absolute inset-0 bg-gradient-to-r from-pink-400 to-pink-600 rounded-lg blur opacity-75 group-hover:opacity-100 transition duration-300"></div>
-          <div className="relative px-6 py-3 bg-gradient-to-r from-pink-400 to-pink-600 text-white font-semibold rounded-lg shadow-lg hover:shadow-2xl hover:scale-105 active:scale-95 transition-all duration-300 flex items-center gap-2">
+          <div className="relative p-3 bg-gradient-to-r from-pink-400 to-pink-600 text-white font-semibold rounded-lg shadow-lg hover:shadow-2xl hover:scale-105 active:scale-95 transition-all duration-300 flex items-center gap-2">
             <svg
+              xmlns="http://www.w3.org/2000/svg"
               className="w-5 h-5"
               fill="none"
               stroke="currentColor"
+              strokeWidth="2"
               viewBox="0 0 24 24"
             >
               <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75"
               />
             </svg>
-            Buka pi
           </div>
         </div>
       </button>
 
       <div className="container mx-auto px-4 text-center relative">
-        {/* Header dengan Animasi */}
+        {/* Header with Animation */}
         <div className="mb-8 animate-fade-in">
-          <h1 className="text-5xl md:text-6xl font-bold text-gray-800 mb-3 tracking-tight">
-            My Wall
+          <h1 className="text-5xl md:text-6xl font-bold text-white mb-3 tracking-tight text-shadow">
+            {TITLE_APP}
           </h1>
-          <div className="flex items-center justify-center gap-2 text-gray-600">
-            <span className="text-lg">Kenangan yang digantung di dinding</span>
-            <span className="text-2xl animate-swing">🎞️</span>
+          <div className="flex items-center justify-center gap-2 text-white font-semibold text-shadow">
+            <span className="text-lg">{SUBTITLE_APP}</span>
           </div>
           <div className="mt-4 w-24 h-1 bg-gradient-to-r from-transparent via-gray-400 to-transparent mx-auto rounded-full"></div>
         </div>
 
-        {/* Upload Form dengan Slide Animation */}
+        {/* Upload Form with Slide Animation */}
         {showForm && (
           <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/50 backdrop-blur-md animate-fade-in">
-            {/* Floating Particles untuk Upload Form */}
+            {/* Floating Particles for Upload Form */}
             <div className="absolute inset-0 pointer-events-none overflow-hidden">
               {[...Array(30)].map((_, i) => (
                 <div
@@ -181,7 +173,7 @@ function App() {
           </div>
         )}
 
-        {/* Letter Modal dengan Backdrop */}
+        {/* Letter Modal with Backdrop */}
         {showLetter && (
           <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/50 backdrop-blur-md animate-fade-in">
             {/* Floating Particles */}
@@ -248,37 +240,37 @@ function App() {
                   image.imageUrl ? (
                     <div
                       key={image.id}
-                      className="polaroid relative w-40 bg-white shadow-lg p-2 rounded-sm transition-all duration-300 hover:z-20 cursor-pointer group"
+                      className="polaroid relative w-40 animate-swing bg-white shadow-lg p-2 transition-all duration-300 z-20 cursor-pointer group"
                       style={{
-                        transform: `rotate(${(Math.random() * 10 - 5).toFixed(2)}deg)`,
+                        '--rotate-angle': `${(Math.random() * 16 - 8).toFixed(2)}deg`,
                         animationDelay: `${idx * 0.05}s`,
                       }}
                     >
                       {/* Clip */}
-                      <div className="clip absolute -top-4 left-1/2 -translate-x-1/2 flex items-center justify-center z-30">
+                      <div className="absolute -top-3 left-1/2 -translate-x-1/2 flex items-center justify-center z-30">
                         <div className="clip-inner w-5 h-3 bg-gradient-to-b from-[#deb887] to-[#c9a77f] rounded-sm shadow-md relative">
                           <div className="clip-seam absolute w-[1px] h-3 bg-[#c79b75] left-1/2 -translate-x-1/2"></div>
                         </div>
                       </div>
 
-                      {/* Image dengan Loading Effect */}
+                      {/* Image with Loading Effect */}
                       <div className="relative w-full h-40 bg-gradient-to-br from-gray-100 to-gray-200 rounded-sm overflow-hidden">
                         <img
                           src={image.imageUrl}
                           alt={image.caption}
-                          className="w-full h-full object-cover rounded-sm transition-transform duration-500 group-hover:scale-105"
+                          className="w-full h-full object-cover rounded-sm transition-transform duration-500"
                           loading="lazy"
                         />
                       </div>
 
-                      {/* Caption dengan Gradient Overlay */}
+                      {/* Caption with Gradient Overlay */}
                       {image.caption && (
-                        <p className="text-xs font-semibold text-gray-800 mt-2 line-clamp-2 group-hover:text-gray-900 transition-colors">
+                        <p className="text-xs font-semibold text-gray-800 mt-2 line-clamp-2 transition-colors">
                           {image.caption}
                         </p>
                       )}
                       {image.createdBy && (
-                        <p className="text-xs text-gray-600 mt-1 group-hover:text-gray-800 transition-colors">
+                        <p className="text-xs text-gray-600 mt-1 transition-colors">
                           oleh: {image.createdBy}
                         </p>
                       )}
@@ -295,10 +287,10 @@ function App() {
             {images.length === 0 && !loading && (
               <div className="py-20 text-center">
                 <div className="text-6xl mb-4">📸</div>
-                <p className="text-gray-600 text-lg mb-2">
+                <p className="text-white text-shadow text-lg mb-2">
                   Belum ada foto yang ditampilkan
                 </p>
-                <p className="text-gray-500 text-sm">
+                <p className="text-white text-shadow text-sm">
                   Klik tombol + untuk menambahkan foto pertama!
                 </p>
               </div>

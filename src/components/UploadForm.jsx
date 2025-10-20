@@ -92,12 +92,12 @@ function UploadForm({ onUploadSuccess }) {
       <div className="relative mb-3 sm:mb-4 text-center flex-shrink-0">
         <div className="inline-block">
           <h2 className="text-xl sm:text-2xl md:text-3xl font-bold bg-gradient-to-r from-blue-600 to-blue-800 bg-clip-text text-transparent mb-1 sm:mb-2">
-            Tambah Foto Baru
+            Tambah Foto
           </h2>
           <div className="w-16 sm:w-20 h-1 bg-gradient-to-r from-blue-400 to-pink-400 mx-auto rounded-full"></div>
         </div>
         <p className="text-gray-600 text-xs sm:text-sm mt-1 sm:mt-2">
-          Abadikan momen spesial di dinding ini 📸
+          Abadikan <b>kenangan</b> di e-dinding ini. Kalo gamau juga gapapa :D
         </p>
       </div>
 
@@ -113,15 +113,16 @@ function UploadForm({ onUploadSuccess }) {
               className="flex items-center gap-2 text-blue-800 font-semibold mb-2 text-xs sm:text-sm"
             >
               <svg
+                xmlns="http://www.w3.org/2000/svg"
                 className="w-3 h-3 sm:w-4 sm:h-4"
                 fill="none"
                 stroke="currentColor"
+                strokeWidth="2"
                 viewBox="0 0 24 24"
               >
                 <path
                   strokeLinecap="round"
                   strokeLinejoin="round"
-                  strokeWidth={2}
                   d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
                 />
               </svg>
@@ -133,7 +134,7 @@ function UploadForm({ onUploadSuccess }) {
               value={createdBy}
               onChange={(e) => setCreatedBy(e.target.value)}
               placeholder="Siapa yang menambahkan?"
-              className="w-full px-3 sm:px-4 py-2 sm:py-3 text-sm sm:text-base border-2 border-blue-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent transition-all duration-300 hover:border-blue-300"
+              className="w-full px-3 sm:px-4 py-2 sm:py-3 text-xs sm:text-sm border-2 border-blue-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent transition-all duration-300 hover:border-blue-300"
               required
             />
           </div>
@@ -145,15 +146,16 @@ function UploadForm({ onUploadSuccess }) {
               className="flex items-center gap-2 text-blue-800 font-semibold mb-2 text-xs sm:text-sm"
             >
               <svg
+                xmlns="http://www.w3.org/2000/svg"
                 className="w-3 h-3 sm:w-4 sm:h-4"
                 fill="none"
                 stroke="currentColor"
+                strokeWidth="2"
                 viewBox="0 0 24 24"
               >
                 <path
                   strokeLinecap="round"
                   strokeLinejoin="round"
-                  strokeWidth={2}
                   d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z"
                 />
               </svg>
@@ -165,7 +167,7 @@ function UploadForm({ onUploadSuccess }) {
               onChange={(e) => setCaption(e.target.value)}
               placeholder="Ceritakan tentang foto ini..."
               rows="3"
-              className="w-full px-3 sm:px-4 py-2 sm:py-3 text-sm sm:text-base border-2 border-blue-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent transition-all duration-300 hover:border-blue-300 resize-none"
+              className="w-full px-3 sm:px-4 py-2 sm:py-3 text-xs sm:text-sm border-2 border-blue-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent transition-all duration-300 hover:border-blue-300 resize-none"
               required
             />
             <div className="text-xs text-gray-500 mt-1 text-right">
@@ -180,15 +182,16 @@ function UploadForm({ onUploadSuccess }) {
               className="flex items-center gap-2 text-blue-800 font-semibold mb-2 text-xs sm:text-sm"
             >
               <svg
+                xmlns="http://www.w3.org/2000/svg"
                 className="w-3 h-3 sm:w-4 sm:h-4"
                 fill="none"
                 stroke="currentColor"
+                strokeWidth="2"
                 viewBox="0 0 24 24"
               >
                 <path
                   strokeLinecap="round"
                   strokeLinejoin="round"
-                  strokeWidth={2}
                   d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
                 />
               </svg>
@@ -210,15 +213,16 @@ function UploadForm({ onUploadSuccess }) {
                   className="flex flex-col items-center justify-center w-full h-28 sm:h-32 border-2 border-dashed border-blue-300 rounded-xl cursor-pointer bg-blue-50 hover:bg-blue-100 transition-all duration-300 group"
                 >
                   <svg
+                    xmlns="http://www.w3.org/2000/svg"
                     className="w-8 h-8 sm:w-10 sm:h-10 text-blue-400 group-hover:text-blue-500 transition-colors mb-1 sm:mb-2"
                     fill="none"
                     stroke="currentColor"
+                    strokeWidth="2"
                     viewBox="0 0 24 24"
                   >
                     <path
                       strokeLinecap="round"
                       strokeLinejoin="round"
-                      strokeWidth={2}
                       d="M12 4v16m8-8H4"
                     />
                   </svg>
@@ -250,15 +254,16 @@ function UploadForm({ onUploadSuccess }) {
                     aria-label="Hapus preview"
                   >
                     <svg
+                      xmlns="http://www.w3.org/2000/svg"
                       className="w-3 h-3 sm:w-4 sm:h-4"
                       fill="none"
                       stroke="currentColor"
+                      strokeWidth="2"
                       viewBox="0 0 24 24"
                     >
                       <path
                         strokeLinecap="round"
                         strokeLinejoin="round"
-                        strokeWidth={2}
                         d="M6 18L18 6M6 6l12 12"
                       />
                     </svg>
@@ -298,20 +303,21 @@ function UploadForm({ onUploadSuccess }) {
           {success && (
             <div className="flex items-center gap-2 p-2 sm:p-3 bg-green-50 border border-green-200 rounded-lg">
               <svg
+                xmlns="http://www.w3.org/2000/svg"
                 className="w-4 h-4 sm:w-5 sm:h-5 text-green-500 flex-shrink-0 animate-bounce"
                 fill="none"
                 stroke="currentColor"
+                strokeWidth="2"
                 viewBox="0 0 24 24"
               >
                 <path
                   strokeLinecap="round"
                   strokeLinejoin="round"
-                  strokeWidth={2}
                   d="M5 13l4 4L19 7"
                 />
               </svg>
               <p className="text-green-600 text-xs sm:text-sm font-medium">
-                Foto berhasil diunggah! 🎉
+                Foto berhasil diunggah!
               </p>
             </div>
           )}
@@ -331,15 +337,16 @@ function UploadForm({ onUploadSuccess }) {
               {isUploading ? (
                 <>
                   <svg
+                    xmlns="http://www.w3.org/2000/svg"
                     className="w-4 h-4 sm:w-5 sm:h-5 animate-spin"
                     fill="none"
                     stroke="currentColor"
+                    strokeWidth="2"
                     viewBox="0 0 24 24"
                   >
                     <path
                       strokeLinecap="round"
                       strokeLinejoin="round"
-                      strokeWidth={2}
                       d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
                     />
                   </svg>
@@ -348,15 +355,16 @@ function UploadForm({ onUploadSuccess }) {
               ) : success ? (
                 <>
                   <svg
+                    xmlns="http://www.w3.org/2000/svg"
                     className="w-4 h-4 sm:w-5 sm:h-5"
                     fill="none"
                     stroke="currentColor"
+                    strokeWidth="2"
                     viewBox="0 0 24 24"
                   >
                     <path
                       strokeLinecap="round"
                       strokeLinejoin="round"
-                      strokeWidth={2}
                       d="M5 13l4 4L19 7"
                     />
                   </svg>
@@ -365,19 +373,20 @@ function UploadForm({ onUploadSuccess }) {
               ) : (
                 <>
                   <svg
+                    xmlns="http://www.w3.org/2000/svg"
                     className="w-4 h-4 sm:w-5 sm:h-5"
                     fill="none"
                     stroke="currentColor"
+                    strokeWidth="2"
                     viewBox="0 0 24 24"
                   >
                     <path
                       strokeLinecap="round"
                       strokeLinejoin="round"
-                      strokeWidth={2}
                       d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
                     />
                   </svg>
-                  Unggah Sekarang
+                  Unggah
                 </>
               )}
             </span>
