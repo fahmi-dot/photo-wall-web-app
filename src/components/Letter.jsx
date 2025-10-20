@@ -234,8 +234,7 @@ const Letter = () => {
                   {/* Header with Decorative Line */}
                   <div className="mb-6">
                     <h2 className="text-xl sm:text-2xl font-bold text-gray-800 mb-2">
-                      {/* {speeches[current].header} */}
-                      Example
+                      {speeches[current].header}
                     </h2>
                     <div className="w-16 h-1 bg-gradient-to-r from-pink-400 to-red-400 rounded-full"></div>
                   </div>
@@ -246,17 +245,7 @@ const Letter = () => {
                       .split("\n")
                       .map((paragraph, idx) => (
                         <p key={idx} className="text-justify">
-                          {/* {paragraph} */}
-                          Lorem ipsum dolor, sit amet consectetur adipisicing
-                          elit. Atque cupiditate laudantium asperiores deserunt
-                          reprehenderit velit unde eligendi veniam dignissimos
-                          dolor. Illum consequuntur laboriosam aliquam
-                          reiciendis asperiores similique possimus? Incidunt,
-                          inventore? Lorem ipsum dolor sit amet consectetur
-                          adipisicing elit. Unde esse, odio aperiam ducimus
-                          eveniet necessitatibus reprehenderit ullam optio in
-                          dolorum similique sapiente adipisci magnam ex eaque
-                          eos at cum voluptatibus.
+                          {paragraph}
                         </p>
                       ))}
                   </div>
