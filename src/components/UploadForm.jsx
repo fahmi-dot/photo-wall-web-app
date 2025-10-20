@@ -17,13 +17,11 @@ function UploadForm({ onUploadSuccess }) {
     const selectedFile = e.target.files[0];
 
     if (selectedFile) {
-      // Validasi ukuran file (max 5MB)
-      if (selectedFile.size > 5 * 1024 * 1024) {
+      if (selectedFile.size > 10 * 1024 * 1024) {
         setError("Ukuran file terlalu besar! Maksimal 5MB");
         return;
       }
 
-      // Validasi tipe file
       if (!selectedFile.type.startsWith("image/")) {
         setError("File harus berupa gambar!");
         return;

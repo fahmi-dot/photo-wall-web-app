@@ -9,6 +9,7 @@ function App() {
   const [showLetter, setShowLetter] = useState(false);
   const [perRow, setPerRow] = useState(getPerRow());
   const [loading, setLoading] = useState(true);
+  const [selectedImage, setSelectedImage] = useState(null);
 
   const API_URL = import.meta.env.VITE_API_URL;
   const TITLE_APP = import.meta.env.VITE_TITLE_APP;
@@ -101,11 +102,12 @@ function App() {
               viewBox="0 0 24 24"
             >
               <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
+                strokeLinecap="round"
+                strokeLinejoin="round"
                 d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75"
               />
             </svg>
+            Buka pi!
           </div>
         </div>
       </button>
@@ -181,7 +183,7 @@ function App() {
               {[...Array(50)].map((_, i) => (
                 <div
                   key={i}
-                  className="absolute w-1 h-1 bg-yellow-300 rounded-full animate-float"
+                  className="absolute w-1 h-1 bg-red-300 rounded-full animate-float"
                   style={{
                     top: `${Math.random() * 100}%`,
                     left: `${Math.random() * 100}%`,
@@ -219,6 +221,78 @@ function App() {
           </div>
         )}
 
+        {/* Polaroid Modal - Enlarged View */}
+        {selectedImage && (
+          <div 
+            className="fixed inset-0 z-[110] flex items-center justify-center bg-black/70 backdrop-blur-md animate-fade-in"
+            onClick={() => setSelectedImage(null)}
+          >
+            {/* Floating Particles */}
+            <div className="absolute inset-0 pointer-events-none overflow-hidden">
+              {[...Array(50)].map((_, i) => (
+                <div
+                  key={i}
+                  className="absolute w-1 h-1 bg-yellow-300 rounded-full animate-float"
+                  style={{
+                    top: `${Math.random() * 100}%`,
+                    left: `${Math.random() * 100}%`,
+                    animationDelay: `${Math.random() * 2}s`,
+                    animationDuration: `${3 + Math.random() * 2}s`,
+                  }}
+                ></div>
+              ))}
+            </div>
+
+            {/* Close Button */}
+            <button
+              onClick={() => setSelectedImage(null)}
+              className="absolute top-4 right-4 z-[112] p-2 bg-white/90 hover:bg-white rounded-full shadow-lg hover:shadow-xl transition-all duration-300 group"
+              aria-label="Tutup foto"
+            >
+              <svg
+                className="w-6 h-6 text-gray-700 group-hover:rotate-90 transition-transform duration-300"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M6 18L18 6M6 6l12 12"
+                />
+              </svg>
+            </button>
+
+            {/* Enlarged Polaroid */}
+            <div 
+              className="polaroid relative w-[85vw] sm:w-80 md:w-96 bg-white shadow-2xl p-3 sm:p-4 md:p-6 animate-scale-in mx-4"
+              onClick={(e) => e.stopPropagation()}
+            >
+              {/* Large Image */}
+              <div className="relative w-full aspect-square bg-gradient-to-br from-gray-100 to-gray-200 rounded-sm overflow-hidden flex items-center justify-center">
+                <img
+                  src={selectedImage.imageUrl}
+                  alt={selectedImage.caption}
+                  className="w-full h-full object-cover rounded-sm"
+                />
+              </div>
+
+              {/* Full Caption */}
+              {selectedImage.caption && (
+                <p className="text-sm sm:text-base md:text-lg font-semibold text-gray-800 mt-3 md:mt-4 text-center px-2">
+                  {selectedImage.caption}
+                </p>
+              )}
+              {selectedImage.createdBy && (
+                <p className="text-xs sm:text-sm md:text-base text-gray-600 mt-2 text-center px-2">
+                  oleh: {selectedImage.createdBy}
+                </p>
+              )}
+            </div>
+          </div>
+        )}
+
         {/* Loading State */}
         {loading ? (
           <div className="flex flex-col items-center justify-center py-20">
@@ -240,7 +314,8 @@ function App() {
                   image.imageUrl ? (
                     <div
                       key={image.id}
-                      className="polaroid relative w-40 animate-swing bg-white shadow-lg p-2 transition-all duration-300 z-20 cursor-pointer group"
+                      onClick={() => setSelectedImage(image)}
+                      className="polaroid relative w-40 animate-swing bg-white shadow-lg p-2 transition-all duration-300 z-20 cursor-pointer group hover:scale-105 hover:z-30"
                       style={{
                         '--rotate-angle': `${(Math.random() * 16 - 8).toFixed(2)}deg`,
                         animationDelay: `${idx * 0.05}s`,

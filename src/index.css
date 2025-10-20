@@ -260,17 +260,9 @@ body::after {
    Responsive
 -------------------------------------------------- */
 @media (max-width: 640px) {
-  .polaroid {
-    width: 110px !important;
-  }
-
   .photo-row::before {
     height: 30px;
     top: -20px;
-  }
-
-  .polaroid:hover {
-    transform: scale(1.05) rotate(var(--rotate-angle, 1deg)) translateY(-4px);
   }
 }
 
