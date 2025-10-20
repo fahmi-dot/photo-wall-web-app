@@ -315,7 +315,7 @@ function App() {
                     <div
                       key={image.id}
                       onClick={() => setSelectedImage(image)}
-                      className="polaroid relative w-40 animate-swing bg-white shadow-lg p-2 transition-all duration-300 z-20 cursor-pointer group hover:scale-105 hover:z-30"
+                      className="polaroid relative w-30 sm:w-40 animate-swing bg-white shadow-lg p-2 transition-all duration-300 z-20 cursor-pointer group hover:scale-105"
                       style={{
                         '--rotate-angle': `${(Math.random() * 16 - 8).toFixed(2)}deg`,
                         animationDelay: `${idx * 0.05}s`,
