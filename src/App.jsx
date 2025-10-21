@@ -315,21 +315,21 @@ function App() {
                     <div
                       key={image.id}
                       onClick={() => setSelectedImage(image)}
-                      className="polaroid relative w-30 sm:w-40 animate-swing bg-white shadow-lg p-2 transition-all duration-300 z-20 cursor-pointer group hover:scale-105"
+                      className="polaroid relative w-24 sm:w-40 animate-swing bg-white shadow-lg p-2 transition-all duration-300 z-20 cursor-pointer group hover:scale-105 hover:z-30"
                       style={{
                         '--rotate-angle': `${(Math.random() * 16 - 8).toFixed(2)}deg`,
                         animationDelay: `${idx * 0.05}s`,
                       }}
                     >
                       {/* Clip */}
-                      <div className="absolute -top-3 left-1/2 -translate-x-1/2 flex items-center justify-center z-30">
-                        <div className="clip-inner w-5 h-3 bg-gradient-to-b from-[#deb887] to-[#c9a77f] rounded-sm shadow-md relative">
-                          <div className="clip-seam absolute w-[1px] h-3 bg-[#c79b75] left-1/2 -translate-x-1/2"></div>
+                      <div className="absolute -top-2 sm:-top-3 left-1/2 -translate-x-1/2 flex items-center justify-center z-30">
+                        <div className="clip-inner w-4 h-2 sm:w-5 sm:h-3 bg-gradient-to-b from-[#deb887] to-[#c9a77f] rounded-sm shadow-md relative">
+                          <div className="clip-seam absolute w-[1px] h-2 sm:h-3 bg-[#c79b75] left-1/2 -translate-x-1/2"></div>
                         </div>
                       </div>
 
                       {/* Image with Loading Effect */}
-                      <div className="relative w-full h-40 bg-gradient-to-br from-gray-100 to-gray-200 rounded-sm overflow-hidden">
+                      <div className="relative w-full h-20 sm:h-40 bg-gradient-to-br from-gray-100 to-gray-200 rounded-sm overflow-hidden">
                         <img
                           src={image.imageUrl}
                           alt={image.caption}
