@@ -22,10 +22,28 @@ function App() {
   }
 
   useEffect(() => {
-    const handleResize = () => setPerRow(getPerRow());
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
+    const script = document.createElement('script');
+    script.src = "//www.instagram.com/embed.js";
+    script.async = true;
+    document.body.appendChild(script);
+
+    // Process Instagram embeds when they're added
+    const processEmbeds = () => {
+      if (window.instgrm) {
+        window.instgrm.Embeds.process();
+      }
+    };
+
+    // Delay to ensure DOM is ready
+    const timer = setTimeout(processEmbeds, 500);
+
+    return () => {
+      clearTimeout(timer);
+      if (document.body.contains(script)) {
+        document.body.removeChild(script);
+      }
+    };
+  }, [images, selectedImage]);
 
   const fetchImages = async () => {
     try {
@@ -47,6 +65,10 @@ function App() {
   for (let i = 0; i < images.length; i += perRow) {
     rows.push(images.slice(i, i + perRow));
   }
+
+  const isInstagramEmbed = (image) => {
+    return image.type === 'instagram';
+  };
 
   return (
     <div className="relative min-h-screen font-montserrat py-10 overflow-x-hidden">
@@ -266,17 +288,30 @@ function App() {
 
             {/* Enlarged Polaroid */}
             <div 
-              className="polaroid relative w-[85vw] sm:w-80 md:w-96 bg-white shadow-2xl p-3 sm:p-4 md:p-6 animate-scale-in mx-4"
+              className="polaroid relative w-[90vw] max-w-[90vw] sm:max-w-[35vw] bg-white shadow-2xl p-4 sm:p-5 md:p-6 animate-scale-in"
               onClick={(e) => e.stopPropagation()}
             >
-              {/* Large Image */}
-              <div className="relative w-full aspect-square bg-gradient-to-br from-gray-100 to-gray-200 rounded-sm overflow-hidden flex items-center justify-center">
-                <img
-                  src={selectedImage.imageUrl}
-                  alt={selectedImage.caption}
-                  className="w-full h-full object-cover rounded-sm"
-                />
-              </div>
+              {/* Large Image or Instagram Embed */}
+              {isInstagramEmbed(selectedImage) ? (
+                <div className="relative max-h-[40vh] sm:max-h-[65vh] bg-gradient-to-br from-gray-100 to-gray-200 rounded-sm overflow-hidden flex items-center justify-center">
+                  <div
+                    className="mt-24 sm:mt-32 mr-0 sm:mr-0 scale-100 sm:scale-125"
+                    dangerouslySetInnerHTML={{
+                      __html: `<blockquote class="instagram-media" data-instgrm-permalink="${selectedImage.imageUrl}" data-instgrm-version="13">
+                                          <a href="${selectedImage.imageUrl}" target="_blank"></a>
+                                        </blockquote>`
+                    }}
+                  />
+                </div>
+              ) : (
+                <div className="relative w-full aspect-square bg-gradient-to-br from-gray-100 to-gray-200 rounded-sm overflow-hidden flex items-center justify-center">
+                  <img
+                    src={selectedImage.imageUrl}
+                    alt={selectedImage.caption}
+                    className="w-full h-full object-cover rounded-sm"
+                  />
+                </div>
+              )}
 
               {/* Full Caption */}
               {selectedImage.caption && (
@@ -311,31 +346,45 @@ function App() {
                 }}
               >
                 {row.map((image, idx) =>
-                  image.imageUrl ? (
+                  image.imageUrl || isInstagramEmbed(image) ? (
                     <div
                       key={image.id}
                       onClick={() => setSelectedImage(image)}
-                      className="polaroid relative w-24 sm:w-40 animate-swing bg-white shadow-lg p-2 transition-all duration-300 z-20 cursor-pointer group hover:scale-105"
+                      className="polaroid relative w-32 sm:w-36 animate-swing bg-white shadow-lg p-2 transition-all duration-300 z-20 cursor-pointer group hover:scale-105 hover:z-30"
                       style={{
-                        '--rotate-angle': `${(Math.random() * 16 - 8).toFixed(2)}deg`,
+                        "--rotate-angle": `${(Math.random() * 16 - 8).toFixed(
+                          2
+                        )}deg`,
                         animationDelay: `${idx * 0.05}s`,
                       }}
                     >
                       {/* Clip */}
-                      <div className="absolute -top-3 left-1/2 -translate-x-1/2 flex items-center justify-center z-30">
-                        <div className="clip-inner w-5 h-3 bg-gradient-to-b from-[#deb887] to-[#c9a77f] rounded-sm shadow-md relative">
-                          <div className="clip-seam absolute w-[1px] h-3 bg-[#c79b75] left-1/2 -translate-x-1/2"></div>
+                      <div className="absolute -top-2 sm:-top-3 left-1/2 -translate-x-1/2 flex items-center justify-center z-30">
+                        <div className="clip-inner w-4 h-2 sm:w-5 sm:h-3 bg-gradient-to-b from-[#deb887] to-[#c9a77f] rounded-sm shadow-md relative">
+                          <div className="clip-seam absolute w-[1px] h-2 sm:h-3 bg-[#c79b75] left-1/2 -translate-x-1/2"></div>
                         </div>
                       </div>
 
-                      {/* Image with Loading Effect */}
-                      <div className="relative w-full h-20 sm:h-40 bg-gradient-to-br from-gray-100 to-gray-200 rounded-sm overflow-hidden">
-                        <img
-                          src={image.imageUrl}
-                          alt={image.caption}
-                          className="w-full h-full object-cover rounded-sm transition-transform duration-500"
-                          loading="lazy"
-                        />
+                      <div className="relative w-full h-32 sm:h-36 bg-gradient-to-br from-gray-100 to-gray-200 rounded-sm overflow-hidden">
+                        {isInstagramEmbed(image) ? (
+                          <div className="relative bottom-48 flex items-center justify-center overflow-hidden">
+                            <div
+                              className="mr-28 sm:mr-24 w-[100%] scale-50"
+                              dangerouslySetInnerHTML={{
+                                __html: `<blockquote class="instagram-media" data-instgrm-permalink="${image.imageUrl}" data-instgrm-version="13">
+                                          <a href="${image.imageUrl}" target="_blank"></a>
+                                        </blockquote>`,
+                              }}
+                            />
+                          </div>
+                        ) : (
+                          <img
+                            src={image.imageUrl}
+                            alt={image.caption}
+                            className="w-full h-full object-cover rounded-sm transition-transform duration-500"
+                            loading="lazy"
+                          />
+                        )}
                       </div>
 
                       {/* Caption with Gradient Overlay */}
