@@ -46,6 +46,12 @@ body::after {
   text-shadow: 2px 4px 4px rgba(0, 0, 0, 1);
 }
 
+.instagram-media {
+  width: 50% !important;
+  object-fit: cover;
+  object-position: center;
+}
+
 /* --------------------------------------------------
    Gantungan / Garis Tali Foto
 -------------------------------------------------- */
