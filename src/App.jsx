@@ -1,7 +1,8 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import axios from "axios";
 import UploadForm from "./components/UploadForm";
 import Letter from "./components/Letter";
+import soundFile from "./assets/sounds/ruang_sendiri.mp3";
 
 function App() {
   const [images, setImages] = useState([]);
@@ -9,11 +10,14 @@ function App() {
   const [showLetter, setShowLetter] = useState(false);
   const [perRow, setPerRow] = useState(getPerRow());
   const [loading, setLoading] = useState(true);
+  const [isMusicPlaying, setIsMusicPlaying] = useState(false);
   const [selectedImage, setSelectedImage] = useState(null);
 
   const API_URL = import.meta.env.VITE_API_URL;
   const TITLE_APP = import.meta.env.VITE_TITLE_APP;
   const SUBTITLE_APP = import.meta.env.VITE_SUBTITLE_APP;
+
+  const audioRef = useRef(new Audio(soundFile));
 
   function getPerRow() {
     if (window.innerWidth <= 640) return 2;
@@ -22,19 +26,17 @@ function App() {
   }
 
   useEffect(() => {
-    const script = document.createElement('script');
+    const script = document.createElement("script");
     script.src = "//www.instagram.com/embed.js";
     script.async = true;
     document.body.appendChild(script);
 
-    // Process Instagram embeds when they're added
     const processEmbeds = () => {
       if (window.instgrm) {
         window.instgrm.Embeds.process();
       }
     };
 
-    // Delay to ensure DOM is ready
     const timer = setTimeout(processEmbeds, 500);
 
     return () => {
@@ -67,18 +69,84 @@ function App() {
   }
 
   const isInstagramEmbed = (image) => {
-    return image.type === 'instagram';
+    return image.type === "instagram";
+  };
+
+  const handleShowFrom = () => {
+    handlePauseMusic();
+    setShowForm(!showForm);
+    setShowLetter(false);
+  }
+
+  const handleShowLetter = () => {
+    handlePauseMusic();
+    setShowLetter(!showLetter);
+    setShowForm(false);
+  }
+
+  const handlePlayMusic = () => {
+    audioRef.current.loop = true;
+    audioRef.current.play().catch((err) => {
+      console.warn("Audio play failed:", err);
+    });
+    setIsMusicPlaying(true);
+  };
+
+  const handlePauseMusic = () => {
+    audioRef.current.pause();
+    setIsMusicPlaying(false);
   };
 
   return (
     <div className="relative min-h-screen font-montserrat py-10 overflow-x-hidden">
       {/* Floating Action Buttons dengan Pulse Effect */}
+      {/* Play/Pause Button */}
+      <button
+        onClick={isMusicPlaying ? handlePauseMusic : handlePlayMusic}
+        className="fixed bottom-16 right-4 z-50 group"
+        aria-label={isMusicPlaying ? "Pause musik" : "Play musik"}
+      >
+        <div className="relative">
+          <div className="absolute inset-0 bg-gradient-to-r from-green-400 to-green-600 rounded-lg blur opacity-75 group-hover:opacity-100 transition duration-300 animate-pulse"></div>
+          <div className="relative p-3 bg-gradient-to-r from-green-400 to-green-600 text-white font-semibold rounded-lg shadow-lg hover:shadow-2xl hover:scale-105 active:scale-95 transition-all duration-300">
+            {isMusicPlaying ? (
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="w-5 h-5"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M15.75 5.25v13.5m-7.5-13.5v13.5"
+                />
+              </svg>
+            ) : (
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="w-5 h-5"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M5.25 5.653c0-.856.917-1.398 1.667-.986l11.54 6.347a1.125 1.125 0 0 1 0 1.972l-11.54 6.347a1.125 1.125 0 0 1-1.667-.986V5.653Z"
+                />
+              </svg>
+            )}
+          </div>
+        </div>
+      </button>
+
       {/* Add Photo Button */}
       <button
-        onClick={() => {
-          setShowForm(!showForm);
-          setShowLetter(false);
-        }}
+        onClick={handleShowFrom}
         className="fixed bottom-4 right-4 z-50 group"
         aria-label={showForm ? "Tutup form" : "Tambah foto"}
       >
@@ -105,10 +173,7 @@ function App() {
 
       {/* Open Letter Button */}
       <button
-        onClick={() => {
-          setShowLetter(!showLetter);
-          setShowForm(false);
-        }}
+        onClick={handleShowLetter}
         className="fixed bottom-4 left-4 z-50 group"
         aria-label="Buka surat"
       >
@@ -245,7 +310,7 @@ function App() {
 
         {/* Polaroid Modal - Enlarged View */}
         {selectedImage && (
-          <div 
+          <div
             className="fixed inset-0 z-[110] flex items-center justify-center bg-black/70 backdrop-blur-md animate-fade-in"
             onClick={() => setSelectedImage(null)}
           >
@@ -287,7 +352,7 @@ function App() {
             </button>
 
             {/* Enlarged Polaroid */}
-            <div 
+            <div
               className="polaroid relative w-[90vw] max-w-[90vw] sm:max-w-[35vw] bg-white shadow-2xl p-4 sm:p-5 md:p-6 animate-scale-in"
               onClick={(e) => e.stopPropagation()}
             >
@@ -299,7 +364,7 @@ function App() {
                     dangerouslySetInnerHTML={{
                       __html: `<blockquote class="instagram-media" data-instgrm-permalink="${selectedImage.imageUrl}" data-instgrm-version="13">
                                           <a href="${selectedImage.imageUrl}" target="_blank"></a>
-                                        </blockquote>`
+                                        </blockquote>`,
                     }}
                   />
                 </div>
