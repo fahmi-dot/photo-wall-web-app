@@ -65,13 +65,13 @@ const Letter = () => {
     }, 300);
   };
 
-  // const prevSpeech = () => {
-  //   setFlipped(!flipped);
-  //   setTimeout(() => {
-  //     setCurrent((prev) => (prev - 1 + speeches.length) % speeches.length);
-  //     setFlipped(false);
-  //   }, 300);
-  // };
+  const prevSpeech = () => {
+    setFlipped(!flipped);
+    setTimeout(() => {
+      setCurrent((prev) => (prev - 1 + speeches.length) % speeches.length);
+      setFlipped(false);
+    }, 300);
+  };
 
   if (loading) {
     return (
@@ -246,15 +246,7 @@ const Letter = () => {
                   </div>
 
                   {/* Content */}
-                  <div className="sm:text-base text-gray-700 leading-[25px] sm:leading-[25px]">
-                    {speeches[current].content
-                      .split("\n")
-                      .map((paragraph, idx) => (
-                        <p key={idx} className="text-justify">
-                          {paragraph}
-                        </p>
-                      ))}
-                  </div>
+                  <div className="sm:text-base text-gray-700 leading-[25px] sm:leading-[25px]" dangerouslySetInnerHTML={{ __html: speeches[current].content }}/>
 
                   {/* Signature */}
                   <div className="mt-8 pt-4">
@@ -267,7 +259,7 @@ const Letter = () => {
                 {/* Navigation */}
                 <div className="mt-8 pt-5 flex flex-col items-end">
                   {/* Previous Button */}
-                  {/* {speeches.length > 1 && current > 0 && (
+                  {speeches.length > 1 && current > 0 && (
                     <button
                       onClick={prevSpeech}
                       className="flex-1 flex items-center justify-center gap-2 group"
@@ -287,7 +279,7 @@ const Letter = () => {
                       </svg>
                       Sebelumnya
                     </button>
-                  )} */}
+                  )}
 
                   {/* Progress Indicator */}
                   {/* {speeches.length > 1 && (
