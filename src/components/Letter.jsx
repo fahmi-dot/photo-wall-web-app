@@ -1,6 +1,7 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import axios from "axios";
+import soundFile from "../assets/sounds/ruang_sendiri.mp3";
 
 const Letter = () => {
   const [opened, setOpened] = useState(false);
@@ -10,6 +11,8 @@ const Letter = () => {
   const [loading, setLoading] = useState(true);
 
   const API_URL = import.meta.env.VITE_API_URL;
+
+  const audioRef = useRef(new Audio(soundFile));
 
   const fetchSpeeches = async () => {
     try {
@@ -23,28 +26,36 @@ const Letter = () => {
     }
   };
 
+  useEffect(() => {
+    fetchSpeeches();
+    if (!opened) {
+      audioRef.current.pause();
+      audioRef.current.currentTime += 2;
+    }
+  }, [opened]);
+
+  const handleOpen = () => {
+    setOpened(true);
+    audioRef.current.loop = true;
+    audioRef.current.play().catch((err) => {
+      console.warn("Audio play failed:", err);
+    });
+  };
+
+  const closeLetter = async () => {
+    const speechesToDelete = speeches.slice(0, current + 1);
+    await Promise.all(speechesToDelete.map((s) => deleteSpeechById(s.id)));
+    setSpeeches((prev) => prev.slice(current + 1));
+    setOpened(false);
+    setCurrent(0);
+  };
+
   const deleteSpeechById = async (id) => {
     try {
       await axios.delete(`${API_URL}/speeches/${id}`);
     } catch (error) {
       console.error(`Gagal menghapus speech dengan id ${id}:`, error);
     }
-  };
-
-  const closeLetter = async () => {
-    const speechesToDelete = speeches.slice(0, current + 1);
-    await Promise.all(speechesToDelete.map(s => deleteSpeechById(s.id)));
-    setSpeeches(prev => prev.slice(current + 1));
-    setOpened(false);
-    setCurrent(0);
-  };
-
-  useEffect(() => {
-    fetchSpeeches();
-  }, []);
-
-  const handleOpen = () => {
-    setOpened(true);
   };
 
   const nextSpeech = () => {
@@ -125,9 +136,7 @@ const Letter = () => {
                       <stop offset="100%" stopColor="#f0a8a8" />
                     </linearGradient>
                   </defs>
-                  <path
-                    d="M0,0 L100,70 L200,0 Z"
-                  />
+                  <path d="M0,0 L100,70 L200,0 Z" />
                 </svg>
               </div>
 
@@ -198,9 +207,7 @@ const Letter = () => {
                       <stop offset="100%" stopColor="#f0a8a8" />
                     </linearGradient>
                   </defs>
-                  <path
-                    d="M0,0 L100,70 L200,0 Z"
-                  />
+                  <path d="M0,0 L100,70 L200,0 Z" />
                 </svg>
               </motion.div>
             </div>
@@ -224,7 +231,7 @@ const Letter = () => {
               style={{ maxHeight: "70vh" }}
             >
               {/* Paper Content */}
-              <div className="paper-lined flex-1 overflow-y-auto py-8 pl-10 pr-2">
+              <div className="paper-lined flex-1 overflow-y-auto py-9 sm:py-8 pl-10 pr-2">
                 <motion.div
                   key={current}
                   initial={{ opacity: 0, x: 20 }}
