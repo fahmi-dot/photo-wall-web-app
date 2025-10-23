@@ -246,7 +246,7 @@ const Letter = () => {
                   </div>
 
                   {/* Content */}
-                  <div className="sm:text-base text-gray-700 leading-[25px] sm:leading-[25px]" dangerouslySetInnerHTML={{ __html: speeches[current].content }}/>
+                  <div className="text-justify sm:text-base text-gray-700 leading-[25px] sm:leading-[25px]" dangerouslySetInnerHTML={{ __html: speeches[current].content }}/>
 
                   {/* Signature */}
                   <div className="mt-8 pt-4">
