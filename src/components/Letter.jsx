@@ -30,7 +30,6 @@ const Letter = () => {
     fetchSpeeches();
     if (!opened) {
       audioRef.current.pause();
-      audioRef.current.currentTime += 2;
     }
   }, [opened]);
 
